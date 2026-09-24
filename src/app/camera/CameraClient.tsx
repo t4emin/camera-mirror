@@ -27,43 +27,11 @@ export function CameraClient() {
   const [error, setError] = useState<string>();
   const [roomId, setRoomId] = useState<string>();
   const [isPairModalOpen, setIsPairModalOpen] = useState(false);
-  const [pairModalOrigin, setPairModalOrigin] = useState<
-    | {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-        radius: number;
-      }
-    | undefined
-  >();
   const [pendingMonitorId, setPendingMonitorId] = useState<string>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const roomBarRef = useRef<HTMLElement | null>(null);
   const roomIdRef = useRef<string | undefined>(undefined);
   const streamRef = useRef<MediaStream | undefined>(undefined);
   const offerStartedRef = useRef(false);
-
-  const openPairModal = useCallback((element?: HTMLElement | null) => {
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      setPairModalOrigin({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-        width: rect.width,
-        height: rect.height,
-        radius: Math.min(
-          parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0,
-          rect.width / 2,
-          rect.height / 2
-        )
-      });
-    } else {
-      setPairModalOrigin(undefined);
-    }
-
-    setIsPairModalOpen(true);
-  }, []);
 
   const startCamera = useCallback(async () => {
     setError(undefined);
@@ -94,7 +62,7 @@ export function CameraClient() {
       if (message.type === "room-created") {
         roomIdRef.current = message.roomId;
         setRoomId(message.roomId);
-        openPairModal();
+        setIsPairModalOpen(true);
       }
 
       if (message.type === "room-state") {
@@ -192,28 +160,12 @@ export function CameraClient() {
       {error ? <p className={styles.error}>{error}</p> : null}
 
       {roomId ? (
-        <>
-          <section ref={roomBarRef} className={styles.roomPill}>
-            <div>
-              <span>Room</span>
-              <strong>{roomId}</strong>
-            </div>
-            <button
-              type="button"
-              aria-haspopup="dialog"
-              aria-expanded={isPairModalOpen}
-              onClick={() => openPairModal(roomBarRef.current)}
-            >
-              Show QR
-            </button>
-          </section>
-          <PairQRCode
-            origin={pairModalOrigin}
-            roomId={roomId}
-            open={isPairModalOpen}
-            onClose={() => setIsPairModalOpen(false)}
-          />
-        </>
+        <PairQRCode
+          roomId={roomId}
+          open={isPairModalOpen}
+          onOpen={() => setIsPairModalOpen(true)}
+          onClose={() => setIsPairModalOpen(false)}
+        />
       ) : null}
 
       {roomId && pendingMonitorId ? (
