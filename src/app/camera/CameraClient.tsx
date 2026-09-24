@@ -31,6 +31,8 @@ export function CameraClient() {
     | {
         x: number;
         y: number;
+        width: number;
+        height: number;
       }
     | undefined
   >();
@@ -45,7 +47,9 @@ export function CameraClient() {
       const rect = element.getBoundingClientRect();
       setPairModalOrigin({
         x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
+        y: rect.top + rect.height / 2,
+        width: rect.width,
+        height: rect.height
       });
     } else {
       setPairModalOrigin(undefined);
@@ -189,6 +193,8 @@ export function CameraClient() {
             </div>
             <button
               type="button"
+              aria-haspopup="dialog"
+              aria-expanded={isPairModalOpen}
               onClick={(event) => openPairModal(event.currentTarget)}
             >
               Show QR
