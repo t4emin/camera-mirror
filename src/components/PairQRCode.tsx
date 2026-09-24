@@ -21,6 +21,7 @@ interface PairQRCodeProps {
     y: number;
     width: number;
     height: number;
+    radius: number;
   };
 }
 
@@ -159,8 +160,8 @@ export function PairQRCode({ origin, roomId, open, onClose }: PairQRCodeProps) {
             "--modal-origin-y": `${panelOffset.y}px`,
             "--modal-scale-x": panelOffset.scaleX,
             "--modal-scale-y": panelOffset.scaleY,
-            "--modal-radius-x": `${22 / panelOffset.scaleX}px`,
-            "--modal-radius-y": `${22 / panelOffset.scaleY}px`
+            "--modal-radius-x": `${(origin?.radius ?? 22) / panelOffset.scaleX}px`,
+            "--modal-radius-y": `${(origin?.radius ?? 22) / panelOffset.scaleY}px`
           } as CSSProperties
         }
         onClick={(event) => event.stopPropagation()}

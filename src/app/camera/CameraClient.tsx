@@ -33,11 +33,13 @@ export function CameraClient() {
         y: number;
         width: number;
         height: number;
+        radius: number;
       }
     | undefined
   >();
   const [pendingMonitorId, setPendingMonitorId] = useState<string>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const roomBarRef = useRef<HTMLElement | null>(null);
   const roomIdRef = useRef<string | undefined>(undefined);
   const streamRef = useRef<MediaStream | undefined>(undefined);
   const offerStartedRef = useRef(false);
@@ -49,7 +51,12 @@ export function CameraClient() {
         x: rect.left + rect.width / 2,
         y: rect.top + rect.height / 2,
         width: rect.width,
-        height: rect.height
+        height: rect.height,
+        radius: Math.min(
+          parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0,
+          rect.width / 2,
+          rect.height / 2
+        )
       });
     } else {
       setPairModalOrigin(undefined);
@@ -186,7 +193,7 @@ export function CameraClient() {
 
       {roomId ? (
         <>
-          <section className={styles.roomPill}>
+          <section ref={roomBarRef} className={styles.roomPill}>
             <div>
               <span>Room</span>
               <strong>{roomId}</strong>
@@ -195,7 +202,7 @@ export function CameraClient() {
               type="button"
               aria-haspopup="dialog"
               aria-expanded={isPairModalOpen}
-              onClick={(event) => openPairModal(event.currentTarget)}
+              onClick={() => openPairModal(roomBarRef.current)}
             >
               Show QR
             </button>

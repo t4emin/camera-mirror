@@ -109,15 +109,16 @@
 .roomPill div {
   display: flex;
   min-width: 0;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .roomPill span {
   color: var(--accent);
   font-size: 0.74rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
