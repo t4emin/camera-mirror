@@ -1,7 +1,13 @@
 "use client";
 
 import QRCode from "qrcode";
-import { useEffect, useState } from "react";
+import {
+  CSSProperties,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react";
 import styles from "./PairQRCode.module.css";
 
 const MODAL_ANIMATION_MS = 260;
@@ -10,13 +16,19 @@ interface PairQRCodeProps {
   roomId: string;
   open: boolean;
   onClose: () => void;
+  origin?: {
+    x: number;
+    y: number;
+  };
 }
 
-export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
+export function PairQRCode({ origin, roomId, open, onClose }: PairQRCodeProps) {
   const [qrUrl, setQrUrl] = useState<string>();
   const [monitorUrl, setMonitorUrl] = useState<string>();
   const [isMounted, setIsMounted] = useState(open);
   const [isVisible, setIsVisible] = useState(false);
+  const [panelOffset, setPanelOffset] = useState({ x: 0, y: 28 });
+  const panelRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const nextMonitorUrl = `${window.location.origin}/monitor/${roomId}`;
@@ -36,8 +48,8 @@ export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
   useEffect(() => {
     if (open) {
       setIsMounted(true);
-      const frame = requestAnimationFrame(() => setIsVisible(true));
-      return () => cancelAnimationFrame(frame);
+      setIsVisible(false);
+      return;
     }
 
     setIsVisible(false);
@@ -47,6 +59,37 @@ export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
 
     return () => window.clearTimeout(timeout);
   }, [open]);
+
+  useLayoutEffect(() => {
+    if (!isMounted || !open) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      const panel = panelRef.current;
+
+      if (!panel || !origin) {
+        setPanelOffset({ x: 0, y: 28 });
+        requestAnimationFrame(() => setIsVisible(true));
+        return;
+      }
+
+      const panelRect = panel.getBoundingClientRect();
+      const panelCenter = {
+        x: panelRect.left + panelRect.width / 2,
+        y: panelRect.top + panelRect.height / 2
+      };
+
+      setPanelOffset({
+        x: origin.x - panelCenter.x,
+        y: origin.y - panelCenter.y
+      });
+
+      requestAnimationFrame(() => setIsVisible(true));
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [isMounted, open, origin]);
 
   useEffect(() => {
     if (!isMounted) {
@@ -89,7 +132,14 @@ export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
       <section
         aria-modal="true"
         className={`${styles.panel} ${isVisible ? styles.panelVisible : ""}`}
+        ref={panelRef}
         role="dialog"
+        style={
+          {
+            "--modal-origin-x": `${panelOffset.x}px`,
+            "--modal-origin-y": `${panelOffset.y}px`
+          } as CSSProperties
+        }
         onClick={(event) => event.stopPropagation()}
       >
         <button className={styles.closeButton} onClick={onClose} type="button">
