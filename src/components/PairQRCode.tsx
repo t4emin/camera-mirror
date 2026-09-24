@@ -4,6 +4,8 @@ import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import styles from "./PairQRCode.module.css";
 
+const MODAL_ANIMATION_MS = 260;
+
 interface PairQRCodeProps {
   roomId: string;
   open: boolean;
@@ -13,6 +15,8 @@ interface PairQRCodeProps {
 export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
   const [qrUrl, setQrUrl] = useState<string>();
   const [monitorUrl, setMonitorUrl] = useState<string>();
+  const [isMounted, setIsMounted] = useState(open);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const nextMonitorUrl = `${window.location.origin}/monitor/${roomId}`;
@@ -30,7 +34,35 @@ export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
   }, [roomId]);
 
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      setIsMounted(true);
+      const frame = requestAnimationFrame(() => setIsVisible(true));
+      return () => cancelAnimationFrame(frame);
+    }
+
+    setIsVisible(false);
+    const timeout = window.setTimeout(() => {
+      setIsMounted(false);
+    }, MODAL_ANIMATION_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [open]);
+
+  useEffect(() => {
+    if (!isMounted) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMounted]);
+
+  useEffect(() => {
+    if (!isMounted) {
       return;
     }
 
@@ -42,17 +74,21 @@ export function PairQRCode({ roomId, open, onClose }: PairQRCodeProps) {
 
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [onClose, open]);
+  }, [isMounted, onClose]);
 
-  if (!open) {
+  if (!isMounted) {
     return null;
   }
 
   return (
-    <div className={styles.overlay} role="presentation" onClick={onClose}>
+    <div
+      className={`${styles.overlay} ${isVisible ? styles.overlayVisible : ""}`}
+      role="presentation"
+      onClick={onClose}
+    >
       <section
         aria-modal="true"
-        className={styles.panel}
+        className={`${styles.panel} ${isVisible ? styles.panelVisible : ""}`}
         role="dialog"
         onClick={(event) => event.stopPropagation()}
       >

@@ -18,7 +18,7 @@
   position: fixed;
   z-index: 8;
   right: 18px;
-  bottom: max(18px, env(safe-area-inset-bottom));
+  bottom: max(42px, calc(env(safe-area-inset-bottom) + 42px));
   left: 18px;
   display: grid;
   pointer-events: none;
@@ -26,10 +26,11 @@
 
 .primaryButton {
   justify-self: center;
-  min-width: min(100%, 320px);
-  min-height: 58px;
+  min-width: min(100%, 260px);
+  min-height: 50px;
   border: 0;
   border-radius: 999px;
+  font-size: 0.95rem;
   font-weight: 900;
   pointer-events: auto;
   background:
@@ -38,7 +39,7 @@
   color: #ffffff;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.38),
-    0 16px 30px rgba(0, 122, 255, 0.28);
+    0 12px 24px rgba(0, 122, 255, 0.24);
 }
 
 .primaryButton:hover,
