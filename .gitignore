@@ -3,3 +3,4 @@ node_modules/
 .cert/
 .env*.local
 npm-debug.log*
+.vercel
