@@ -1,7 +1,21 @@
+.overlay {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  padding: 18px;
+  background: rgba(220, 232, 248, 0.5);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
 .panel {
+  position: relative;
   display: grid;
   justify-items: center;
   gap: 14px;
+  width: min(100%, 420px);
   border: 1px solid var(--line);
   border-radius: 24px;
   background:
@@ -12,8 +26,25 @@
   backdrop-filter: blur(26px) saturate(165%);
 }
 
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.62)),
+    var(--glass);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding: 0 12px;
+  backdrop-filter: blur(18px) saturate(150%);
+}
+
 .label {
-  margin: 0 0 2px;
+  margin: 22px 0 2px;
   color: var(--accent);
   font-size: 0.74rem;
   font-weight: 800;
@@ -33,7 +64,7 @@
 
 .qr,
 .qrPlaceholder {
-  width: min(62vw, 240px);
+  width: min(70vw, 280px);
   aspect-ratio: 1;
   border-radius: 22px;
   background: #f7fafc;
@@ -47,4 +78,25 @@
   font-size: 0.78rem;
   line-height: 1.4;
   text-align: center;
+}
+
+@media (min-width: 720px) {
+  .overlay {
+    align-items: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .overlay {
+    padding: 12px;
+  }
+
+  .panel {
+    border-radius: 28px;
+  }
+
+  .qr,
+  .qrPlaceholder {
+    width: min(76vw, 280px);
+  }
 }

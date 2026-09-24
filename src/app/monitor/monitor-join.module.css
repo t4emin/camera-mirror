@@ -1,22 +1,29 @@
 .page {
   display: grid;
   min-height: 100svh;
-  place-items: center;
-  padding: 24px;
+  align-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 14px
+    max(18px, env(safe-area-inset-bottom));
 }
 
 .panel {
   display: grid;
-  width: min(100%, 420px);
-  gap: 18px;
+  width: min(100%, 440px);
+  gap: 22px;
+  justify-self: center;
   border: 1px solid var(--line);
   border-radius: 28px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.62)),
     var(--panel);
   box-shadow: var(--shadow), var(--inner-highlight);
-  padding: 22px;
+  padding: 20px;
   backdrop-filter: blur(26px) saturate(165%);
+}
+
+.header {
+  display: grid;
+  gap: 4px;
 }
 
 .kicker {
@@ -28,37 +35,64 @@
   text-transform: uppercase;
 }
 
-.panel h1 {
+.header h1 {
   margin: 0;
-  font-size: clamp(2.2rem, 11vw, 3.6rem);
+  font-size: clamp(2rem, 10vw, 3.2rem);
   line-height: 1;
 }
 
-.panel label {
+.field {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   color: var(--muted-strong);
   font-weight: 800;
 }
 
-.panel input {
-  min-height: 58px;
+.field span {
+  font-size: 0.9rem;
+}
+
+.codeInput {
+  position: relative;
+}
+
+.codePreview {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+}
+
+.codePreview span {
+  display: grid;
+  aspect-ratio: 1;
+  min-width: 0;
+  place-items: center;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 249, 255, 0.82)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 249, 255, 0.78)),
     var(--glass);
-  color: var(--text);
-  font-size: 1.6rem;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  padding: 0 14px;
-  text-transform: uppercase;
   box-shadow: var(--inner-highlight);
+  color: var(--text);
+  font-size: clamp(1.3rem, 8vw, 2rem);
+  font-weight: 900;
+}
+
+.panel input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  cursor: text;
+  color: transparent;
+  caret-color: transparent;
 }
 
 .panel button {
-  min-height: 54px;
+  min-height: 58px;
   border: 0;
   border-radius: 999px;
   background:
@@ -71,6 +105,27 @@
     0 16px 30px rgba(0, 122, 255, 0.28);
 }
 
+.panel button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
 .panel button:hover {
   transform: translateY(-1px);
+}
+
+@media (max-width: 380px) {
+  .panel {
+    border-radius: 24px;
+    gap: 18px;
+    padding: 16px;
+  }
+
+  .codePreview {
+    gap: 5px;
+  }
+
+  .codePreview span {
+    border-radius: 13px;
+  }
 }

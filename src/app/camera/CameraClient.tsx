@@ -26,6 +26,7 @@ export function CameraClient() {
   const [state, setState] = useState<ConnectionState>("WAITING");
   const [error, setError] = useState<string>();
   const [roomId, setRoomId] = useState<string>();
+  const [isPairModalOpen, setIsPairModalOpen] = useState(false);
   const [pendingMonitorId, setPendingMonitorId] = useState<string>();
   const [capturedUrl, setCapturedUrl] = useState<string>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -86,6 +87,7 @@ export function CameraClient() {
       if (message.type === "room-created") {
         roomIdRef.current = message.roomId;
         setRoomId(message.roomId);
+        setIsPairModalOpen(true);
       }
 
       if (message.type === "room-state") {
@@ -194,7 +196,24 @@ export function CameraClient() {
 
       {error ? <p className={styles.error}>{error}</p> : null}
 
-      {roomId ? <PairQRCode roomId={roomId} /> : null}
+      {roomId ? (
+        <>
+          <section className={styles.roomPill}>
+            <div>
+              <span>Room</span>
+              <strong>{roomId}</strong>
+            </div>
+            <button type="button" onClick={() => setIsPairModalOpen(true)}>
+              Show QR
+            </button>
+          </section>
+          <PairQRCode
+            roomId={roomId}
+            open={isPairModalOpen}
+            onClose={() => setIsPairModalOpen(false)}
+          />
+        </>
+      ) : null}
 
       {roomId && pendingMonitorId ? (
         <section className={styles.pairRequest}>
