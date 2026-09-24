@@ -33,3 +33,29 @@
 .status[data-state="disconnected"] span {
   background: var(--danger);
 }
+
+.compactStatus {
+  display: grid;
+  width: 12px;
+  height: 12px;
+  place-items: center;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.compactStatus span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--warning);
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.compactStatus[data-state="connected"] span {
+  background: var(--success);
+}
+
+.compactStatus[data-state="error"] span,
+.compactStatus[data-state="disconnected"] span {
+  background: var(--danger);
+}

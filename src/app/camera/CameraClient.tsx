@@ -28,7 +28,6 @@ export function CameraClient() {
   const [roomId, setRoomId] = useState<string>();
   const [isPairModalOpen, setIsPairModalOpen] = useState(false);
   const [pendingMonitorId, setPendingMonitorId] = useState<string>();
-  const [capturedUrl, setCapturedUrl] = useState<string>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const roomIdRef = useRef<string | undefined>(undefined);
   const streamRef = useRef<MediaStream | undefined>(undefined);
@@ -57,30 +56,6 @@ export function CameraClient() {
       );
     }
   }, [controller, peerId, signalingClient]);
-
-  const capture = useCallback(async () => {
-    if (!stream || !videoRef.current) {
-      return;
-    }
-
-    try {
-      const result = await captureFromStream(stream, videoRef.current);
-      const nextUrl = URL.createObjectURL(result.blob);
-      setCapturedUrl((currentUrl) => {
-        if (currentUrl) {
-          URL.revokeObjectURL(currentUrl);
-        }
-
-        return nextUrl;
-      });
-    } catch (captureError) {
-      setError(
-        captureError instanceof Error
-          ? captureError.message
-          : "Unable to capture image."
-      );
-    }
-  }, [stream]);
 
   useEffect(() => {
     const unsubscribe = signalingClient.onMessage((message) => {
@@ -169,23 +144,11 @@ export function CameraClient() {
     };
   }, [controller, signalingClient, webRTCPeer]);
 
-  useEffect(() => {
-    return () => {
-      if (capturedUrl) {
-        URL.revokeObjectURL(capturedUrl);
-      }
-    };
-  }, [capturedUrl]);
-
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.kicker}>Phone A</p>
-          <h1>Camera</h1>
-        </div>
-        <ConnectionStatus state={state} />
-      </header>
+      <div className={styles.statusDock}>
+        <ConnectionStatus compact state={state} />
+      </div>
 
       <CameraPreview
         stream={stream}
@@ -233,24 +196,12 @@ export function CameraClient() {
       ) : null}
 
       <div className={styles.controls}>
-        <button className={styles.primaryButton} onClick={startCamera}>
-          Start Camera
-        </button>
-        <button
-          className={styles.secondaryButton}
-          disabled={!stream}
-          onClick={capture}
-        >
-          Test Capture
-        </button>
+        {!stream ? (
+          <button className={styles.primaryButton} onClick={startCamera}>
+            Start Camera
+          </button>
+        ) : null}
       </div>
-
-      {capturedUrl ? (
-        <section className={styles.preview}>
-          <h2>Captured Preview</h2>
-          <img src={capturedUrl} alt="Captured camera frame" />
-        </section>
-      ) : null}
     </main>
   );
 }

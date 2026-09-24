@@ -3,13 +3,19 @@ import styles from "./ConnectionStatus.module.css";
 
 interface ConnectionStatusProps {
   state: ConnectionState;
+  compact?: boolean;
 }
 
-export function ConnectionStatus({ state }: ConnectionStatusProps) {
+export function ConnectionStatus({ compact = false, state }: ConnectionStatusProps) {
   return (
-    <div className={styles.status} data-state={state.toLowerCase()}>
+    <div
+      aria-label={state}
+      className={compact ? styles.compactStatus : styles.status}
+      data-state={state.toLowerCase()}
+      title={state}
+    >
       <span aria-hidden="true" />
-      {state}
+      {compact ? null : state}
     </div>
   );
 }
