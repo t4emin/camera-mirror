@@ -1,0 +1,44 @@
+.panel {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 14px;
+}
+
+.label {
+  margin: 0 0 2px;
+  color: #b8c5d1;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.roomId {
+  margin: 0;
+  color: #76f7c2;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.qr,
+.qrPlaceholder {
+  width: min(62vw, 240px);
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: #f7fafc;
+}
+
+.url {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: #b8c5d1;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}

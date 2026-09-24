@@ -1,0 +1,61 @@
+.page {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 24px;
+}
+
+.panel {
+  width: min(100%, 440px);
+}
+
+.kicker {
+  margin: 0 0 12px;
+  color: #76f7c2;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.panel h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 12vw, 4.2rem);
+  line-height: 0.95;
+}
+
+.copy {
+  color: #b8c5d1;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.link,
+.secondaryLink {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 800;
+  padding: 0 18px;
+  text-decoration: none;
+}
+
+.link {
+  border: 1px solid rgba(118, 247, 194, 0.45);
+  background: #76f7c2;
+  color: #04110d;
+}
+
+.secondaryLink {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f7fafc;
+}

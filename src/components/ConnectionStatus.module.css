@@ -1,0 +1,29 @@
+.status {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(7, 9, 13, 0.72);
+  color: #dce8ef;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0 10px;
+}
+
+.status span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #d4a657;
+}
+
+.status[data-state="connected"] span {
+  background: #76f7c2;
+}
+
+.status[data-state="error"] span,
+.status[data-state="disconnected"] span {
+  background: #ff6b6b;
+}

@@ -1,0 +1,135 @@
+.page {
+  display: grid;
+  min-height: 100svh;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: max(16px, env(safe-area-inset-top)) 16px
+    max(20px, env(safe-area-inset-bottom));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kicker {
+  margin: 0 0 2px;
+  color: #76f7c2;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.55rem;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 54px;
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.primaryButton {
+  border: 0;
+  background: #76f7c2;
+  color: #04110d;
+}
+
+.secondaryButton {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f7fafc;
+}
+
+.secondaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.error {
+  margin: 0;
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-radius: 8px;
+  background: rgba(255, 107, 107, 0.12);
+  color: #ffd7d7;
+  padding: 12px;
+}
+
+.pairRequest {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(118, 247, 194, 0.36);
+  border-radius: 8px;
+  background: rgba(118, 247, 194, 0.1);
+  padding: 12px;
+}
+
+.pairRequest p {
+  margin: 0 0 4px;
+  font-weight: 900;
+}
+
+.pairRequest span {
+  color: #b8c5d1;
+  font-size: 0.86rem;
+}
+
+.pairRequest button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #76f7c2;
+  color: #04110d;
+  font-weight: 900;
+  padding: 0 16px;
+}
+
+.preview {
+  display: grid;
+  gap: 8px;
+}
+
+.preview h2 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  max-height: 32svh;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #020406;
+}
+
+@media (orientation: landscape) {
+  .page {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .header {
+    grid-column: 1 / -1;
+  }
+
+  .controls,
+  .preview,
+  .error {
+    align-self: start;
+  }
+}

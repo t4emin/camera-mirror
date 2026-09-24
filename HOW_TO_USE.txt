@@ -1,0 +1,137 @@
+Remote Camera Monitor - วิธีใช้งาน
+
+โปรเจกต์นี้ใช้มือถือ 2 เครื่อง จะอยู่ Wi-Fi เดียวกันหรือคนละ network ก็ได้ถ้า deploy ขึ้น HTTPS แล้ว WebRTC ต่อกันได้
+
+- Phone A = Camera
+- Phone B = Monitor / Remote Controller
+
+
+1. ติดตั้ง dependencies
+
+เปิด terminal ที่โฟลเดอร์โปรเจกต์:
+
+  /Users/manat/Documents/camera-mirror
+
+แล้วรัน:
+
+  npm install
+
+
+2. สร้าง HTTPS certificate สำหรับทดสอบบนมือถือ
+
+รัน:
+
+  npm run cert
+
+หมายเหตุ:
+- certificate นี้เป็น self-signed สำหรับ dev เท่านั้น
+- ถ้า IP เครื่องเปลี่ยน ควรรัน npm run cert ใหม่
+
+
+3. เปิด dev server แบบ HTTPS
+
+รัน:
+
+  npm run dev:https
+
+ถ้าสำเร็จ จะเห็นประมาณนี้:
+
+  Ready on https://0.0.0.0:3000
+
+
+4. เปิด Phone A เป็นกล้อง
+
+บนมือถือเครื่องที่ใช้เป็นกล้อง ให้เปิด:
+
+  https://10.92.3.53:3000/camera
+
+ถ้า browser เตือนว่า certificate ไม่ปลอดภัย ให้กดยอมรับ/ดำเนินการต่อ
+
+จากนั้น:
+
+1. กด Start Camera
+2. อนุญาต camera permission
+3. รอให้เห็น local preview
+4. ระบบจะแสดง Pair Code 6 หลัก และ QR Code
+
+
+5. เปิด Phone B เป็น monitor
+
+ใช้ Phone B เปิดหน้า /monitor แล้วกรอก Pair Code ที่แสดงบน Phone A
+
+หรือ scan QR Code ที่แสดงบน Phone A ก็ได้
+
+หลัง scan แล้ว Phone B จะเปิดหน้า:
+
+  /monitor/{roomId}
+
+หลัง Phone B ขอเชื่อมต่อ:
+
+1. Phone A จะขึ้นคำขอ Monitor wants to connect
+2. กด Accept บน Phone A
+
+เมื่อเชื่อมต่อสำเร็จ:
+
+- Phone B จะเห็น live camera feed จาก Phone A
+- สถานะจะเป็น CONNECTED
+- ปุ่ม Capture จะกดได้
+
+
+6. ถ่ายภาพจาก Phone B
+
+บน Phone B:
+
+1. กด Capture
+2. Phone A จะ capture ภาพ
+3. Phone B จะแสดง Captured Preview
+
+
+7. ถ้าหลุดการเชื่อมต่อ
+
+ถ้า Phone B หลุด:
+
+- Phone A จะกลับไปรอสถานะ WAITING
+
+ถ้า Phone A หลุด:
+
+- Phone B จะแสดงสถานะ DISCONNECTED
+- กด Reconnect เพื่อลองเชื่อมใหม่
+
+
+8. URL ที่ใช้บ่อย
+
+เปิดบนเครื่อง dev:
+
+  https://localhost:3000/camera
+
+เปิดจากมือถือใน Wi-Fi เดียวกัน:
+
+  https://10.92.3.53:3000/camera
+
+ถ้า deploy ขึ้น Vercel แล้ว:
+
+  https://YOUR-VERCEL-DOMAIN.vercel.app/camera
+  https://YOUR-VERCEL-DOMAIN.vercel.app/monitor
+
+
+9. คำสั่งตรวจสอบ
+
+รัน test:
+
+  npm run test
+
+build production:
+
+  npm run build
+
+
+10. ข้อควรรู้
+
+- มือถือทั้งสองเครื่องต้องอยู่ Wi-Fi เดียวกัน
+- ถ้าใช้ผ่าน Vercel มือถือไม่จำเป็นต้องอยู่ Wi-Fi เดียวกัน แต่ WebRTC อาจต้องพึ่ง STUN/TURN ใน network บางแบบ
+- กล้องบน mobile browser ต้องใช้ HTTPS หรือ secure context
+- Room state เป็น in-memory ถ้า restart server/function ห้องจะหาย
+- บน Vercel ถ้า traffic scale ไปหลาย function instance อาจต้องเพิ่ม shared store/pubsub เช่น Upstash Redis เพื่อให้ pairing เสถียรระดับ production
+- MVP รองรับ 1 Camera + 1 Monitor ต่อ 1 Room
+- Video stream ส่งผ่าน WebRTC P2P ไม่ได้วิ่งผ่าน app server
+- ยังไม่มี login, gallery, cloud storage, zoom, focus, flash, หรือ multi-monitor
