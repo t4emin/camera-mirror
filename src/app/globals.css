@@ -1,10 +1,28 @@
 :root {
-  color-scheme: dark;
-  background: #07090d;
-  color: #f7fafc;
+  color-scheme: light;
+  background: #f4f8ff;
+  color: #142033;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  --bg: #f4f8ff;
+  --glass: rgba(255, 255, 255, 0.66);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --panel: rgba(255, 255, 255, 0.68);
+  --panel-strong: rgba(255, 255, 255, 0.86);
+  --line: rgba(65, 92, 130, 0.16);
+  --line-strong: rgba(58, 97, 150, 0.28);
+  --text: #142033;
+  --muted: rgba(49, 67, 92, 0.62);
+  --muted-strong: rgba(30, 45, 68, 0.82);
+  --accent: #007aff;
+  --accent-soft: #e6f1ff;
+  --accent-2: #32d4a4;
+  --success: #1fbd7a;
+  --danger: #ff3b5c;
+  --warning: #f5a400;
+  --shadow: 0 22px 58px rgba(44, 80, 130, 0.18);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 * {
@@ -19,8 +37,11 @@ body {
 
 body {
   background:
-    radial-gradient(circle at 20% 0%, rgba(47, 107, 255, 0.18), transparent 32rem),
-    linear-gradient(160deg, #07090d 0%, #101923 55%, #07110f 100%);
+    radial-gradient(circle at 16% 0%, rgba(0, 122, 255, 0.22), transparent 22rem),
+    radial-gradient(circle at 90% 12%, rgba(50, 212, 164, 0.2), transparent 24rem),
+    radial-gradient(circle at 46% 94%, rgba(255, 255, 255, 0.92), transparent 30rem),
+    linear-gradient(145deg, #f7fbff 0%, #eef6ff 48%, #edfdf8 100%);
+  font-feature-settings: "ss01", "cv01";
 }
 
 button,
@@ -32,6 +53,22 @@ select {
 
 button {
   cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    opacity 160ms ease;
+}
+
+button:active {
+  transform: scale(0.985);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(0, 122, 255, 0.28);
+  outline-offset: 3px;
 }
 
 a {

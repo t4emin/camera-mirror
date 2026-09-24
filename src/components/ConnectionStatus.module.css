@@ -1,29 +1,35 @@
 .status {
   display: inline-flex;
-  min-height: 34px;
+  min-height: 36px;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  background: rgba(7, 9, 13, 0.72);
-  color: #dce8ef;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.66)),
+    var(--glass);
+  box-shadow: var(--inner-highlight), 0 12px 24px rgba(44, 80, 130, 0.14);
+  color: var(--muted-strong);
   font-size: 0.78rem;
-  font-weight: 800;
-  padding: 0 10px;
+  font-weight: 900;
+  padding: 0 12px;
+  text-transform: uppercase;
+  backdrop-filter: blur(22px) saturate(160%);
 }
 
 .status span {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #d4a657;
+  background: var(--warning);
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 16%, transparent);
 }
 
 .status[data-state="connected"] span {
-  background: #76f7c2;
+  background: var(--success);
 }
 
 .status[data-state="error"] span,
 .status[data-state="disconnected"] span {
-  background: #ff6b6b;
+  background: var(--danger);
 }

@@ -5,6 +5,13 @@ Remote Camera Monitor - วิธีใช้งาน
 - Phone A = Camera
 - Phone B = Monitor / Remote Controller
 
+UI ปัจจุบันเป็นโทนสว่างแบบ liquid glass:
+
+- พื้นหลังสว่าง
+- ปุ่มหลักเป็น pill สีฟ้า
+- panel เป็น glass card
+- video preview ยังเป็นพื้นที่หลักของหน้าจอ
+
 
 1. ติดตั้ง dependencies
 
@@ -110,8 +117,8 @@ Remote Camera Monitor - วิธีใช้งาน
 
 ถ้า deploy ขึ้น Vercel แล้ว:
 
-  https://YOUR-VERCEL-DOMAIN.vercel.app/camera
-  https://YOUR-VERCEL-DOMAIN.vercel.app/monitor
+  https://camera-mirror.vercel.app/camera
+  https://camera-mirror.vercel.app/monitor
 
 
 9. คำสั่งตรวจสอบ
@@ -127,7 +134,6 @@ build production:
 
 10. ข้อควรรู้
 
-- มือถือทั้งสองเครื่องต้องอยู่ Wi-Fi เดียวกัน
 - ถ้าใช้ผ่าน Vercel มือถือไม่จำเป็นต้องอยู่ Wi-Fi เดียวกัน แต่ WebRTC อาจต้องพึ่ง STUN/TURN ใน network บางแบบ
 - กล้องบน mobile browser ต้องใช้ HTTPS หรือ secure context
 - Room state เป็น in-memory ถ้า restart server/function ห้องจะหาย

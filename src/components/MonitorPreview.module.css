@@ -3,9 +3,36 @@
   overflow: hidden;
   width: 100%;
   min-height: 64svh;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: #020406;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 28%),
+    #020304;
+  box-shadow: 0 24px 70px rgba(44, 80, 130, 0.22), var(--inner-highlight);
+  isolation: isolate;
+}
+
+.frame::before,
+.frame::after {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+}
+
+.frame::before {
+  inset: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+}
+
+.frame::after {
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    radial-gradient(circle at center, transparent 54%, rgba(0, 0, 0, 0.38));
+  background-size: 100% 4px, 100% 100%;
+  opacity: 0.35;
 }
 
 .video {
@@ -28,12 +55,12 @@
 
 .empty p {
   margin: 0;
-  color: #76f7c2;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1.4rem;
   font-weight: 900;
 }
 
 .empty span {
-  color: #8fa0ad;
+  color: rgba(255, 255, 255, 0.64);
   font-size: 0.92rem;
 }

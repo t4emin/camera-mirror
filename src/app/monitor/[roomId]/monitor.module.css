@@ -2,9 +2,9 @@
   display: grid;
   min-height: 100svh;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 16px;
-  padding: max(16px, env(safe-area-inset-top)) 16px
-    max(20px, env(safe-area-inset-bottom));
+  gap: 14px;
+  padding: max(18px, env(safe-area-inset-top)) 14px
+    max(18px, env(safe-area-inset-bottom));
 }
 
 .header {
@@ -16,7 +16,7 @@
 
 .kicker {
   margin: 0 0 2px;
-  color: #76f7c2;
+  color: var(--accent);
   font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -25,15 +25,16 @@
 
 .header h1 {
   margin: 0;
-  font-size: 1.55rem;
+  color: var(--text);
+  font-size: 1.65rem;
 }
 
 .error {
   margin: 0;
   border: 1px solid rgba(255, 107, 107, 0.4);
-  border-radius: 8px;
-  background: rgba(255, 107, 107, 0.12);
-  color: #ffd7d7;
+  border-radius: 18px;
+  background: rgba(255, 59, 92, 0.1);
+  color: #94182d;
   padding: 12px;
 }
 
@@ -45,19 +46,42 @@
 .captureButton {
   min-height: 64px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 999px;
+  box-shadow: var(--inner-highlight), 0 18px 38px rgba(44, 80, 130, 0.18);
   font-size: 1.05rem;
   font-weight: 900;
 }
 
+.reconnectButton:hover,
+.captureButton:hover {
+  transform: translateY(-1px);
+}
+
 .reconnectButton {
-  background: #76f7c2;
-  color: #04110d;
+  background:
+    linear-gradient(180deg, #2f9bff, #007aff),
+    var(--accent);
+  color: #ffffff;
 }
 
 .captureButton {
-  background: #f7fafc;
-  color: #07110f;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #ffffff, #eef5ff),
+    #ffffff;
+  color: #142033;
+}
+
+.captureButton::before {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  border: 3px solid #142033;
+  border-radius: 999px;
+  vertical-align: -4px;
+  content: "";
 }
 
 .captureButton:disabled {
@@ -72,6 +96,7 @@
 
 .preview h2 {
   margin: 0;
+  color: var(--muted-strong);
   font-size: 0.9rem;
 }
 
@@ -79,7 +104,29 @@
   display: block;
   width: 100%;
   max-height: 32svh;
-  border-radius: 8px;
+  border-radius: 24px;
   object-fit: contain;
   background: #020406;
+  box-shadow: var(--shadow);
+}
+
+@media (orientation: landscape) {
+  .page {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 18px;
+    padding: max(18px, env(safe-area-inset-top)) 18px
+      max(18px, env(safe-area-inset-bottom));
+  }
+
+  .header {
+    grid-column: 1 / -1;
+  }
+
+  .error,
+  .reconnectButton,
+  .controls,
+  .preview {
+    align-self: start;
+  }
 }

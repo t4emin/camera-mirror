@@ -1,16 +1,20 @@
 .panel {
   display: grid;
   justify-items: center;
-  gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  padding: 14px;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.58)),
+    var(--panel);
+  box-shadow: var(--inner-highlight), var(--shadow);
+  padding: 16px;
+  backdrop-filter: blur(26px) saturate(165%);
 }
 
 .label {
   margin: 0 0 2px;
-  color: #b8c5d1;
+  color: var(--accent);
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -20,24 +24,26 @@
 
 .roomId {
   margin: 0;
-  color: #76f7c2;
-  font-size: 1.8rem;
+  color: var(--text);
+  font-size: clamp(1.9rem, 9vw, 2.7rem);
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
+  text-shadow: none;
 }
 
 .qr,
 .qrPlaceholder {
   width: min(62vw, 240px);
   aspect-ratio: 1;
-  border-radius: 8px;
+  border-radius: 22px;
   background: #f7fafc;
+  box-shadow: 0 16px 36px rgba(44, 80, 130, 0.16);
 }
 
 .url {
   overflow-wrap: anywhere;
   margin: 0;
-  color: #b8c5d1;
+  color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.4;
   text-align: center;
